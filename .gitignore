@@ -36,3 +36,6 @@ nosetests.xml
 
 # Databases
 *.sqlite3
+
+#Vim Swap Files
+*.swp
