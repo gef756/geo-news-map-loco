@@ -15,10 +15,10 @@ function initialize() {
 
 		hasInit = true;
 	}
-    initMarkers();
+    addMarker();
 }
 
-function initMarkers() {
+function addMarker() {
 	var myLatlng = new google.maps.LatLng(40.714623,-74.006605);
 	var marker = new google.maps.Marker({
 	  position: myLatlng,
