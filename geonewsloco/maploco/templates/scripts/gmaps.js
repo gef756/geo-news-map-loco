@@ -1,5 +1,5 @@
 var map;
-var hasInit;
+var hasInit = false;
 
 function initialize(hasInit) {
 	if (!hasInit) {
@@ -15,12 +15,4 @@ function initialize(hasInit) {
 
 		hasInit = true;
 	};
-
-	
-	
-
-
-
 }
-
-function add
