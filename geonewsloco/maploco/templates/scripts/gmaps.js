@@ -90,9 +90,4 @@ function loadArticles() {
     //addmarker(markerLatLng[0], markerLatLng[1]);
 }
 
-// Takes String and converts it to lat lng
-function geoLocate(address) {
-
-}
-
 google.maps.event.addDomListener(window, 'load', initialize);
