@@ -20,7 +20,7 @@ def i_dont_give_a_fuck(start_date, end_date):
         docs = result['response']['docs']
 
         for doc in docs:
-            story = Story(popularity = -1, lat = -1, lon = -1)
+            story = Story()
         
             if hasattr(doc, 'headline') and hasattr(doc['headline'], 'main'):
                 story.headline = doc['headline']['main']
@@ -38,4 +38,4 @@ def i_dont_give_a_fuck(start_date, end_date):
 
             story.save()
 
-    return
+    return "Done importing."

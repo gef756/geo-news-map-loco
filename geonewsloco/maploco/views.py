@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from maploco.models import Story
 from maploco.utils import *
@@ -32,3 +32,7 @@ def gmaps_js(request):
     recent_stories_list = Story.objects.order_by('popularity')
     context = {'recent_stories_list': recent_stories_list}
     return render(request, 'scripts/gmaps.js', context)
+
+def story_detail(request, story_id):
+    story = get_object_or_404(Story, pk=story_id)
+    return render(request, 'story_detail.html', {'story': story})

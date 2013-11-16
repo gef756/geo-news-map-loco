@@ -1,7 +1,7 @@
 {% if recent_stories_list %}
   <ul>
     {% for story in recent_stories_list %}
-      <li><a href="/story/{{ story.id }}/">{{ story.id }}: {{ story.headline }}</a></li>
+      <li><a href="../story/{{ story.id }}/">{{ story.id }}: {{ story.headline }}</a></li>
     {% endfor %}
   </ul>
 {% else %}
