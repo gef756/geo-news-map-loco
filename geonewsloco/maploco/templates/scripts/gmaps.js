@@ -25,5 +25,6 @@ function initMarkers() {
 	  map: map,
 	  title: 'Hello World!'
 	});
+        marker.setMap(map);
 }
 google.maps.event.addDomListener(window, 'load', initialize);
