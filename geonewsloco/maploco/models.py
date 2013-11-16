@@ -9,3 +9,4 @@ class Story(models.Model):
     lon = models.FloatField()
     location_description = models.CharField(max_length=255)
     popularity = models.IntegerField()
+    blurb = models.CharField(max_length=1000)
