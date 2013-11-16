@@ -61,9 +61,9 @@ function initialize() {
 }
 
 function addMarker() {
-        var infowindow = new google.maps.InfoWindow({
-              content: "Hello World"
-          });
+    var infowindow = new google.maps.InfoWindow({
+        content: "Hello World"
+ 	});
 	var myLatlng = new google.maps.LatLng(40.714623,-74.006605);
 	var marker = new google.maps.Marker({
 	  position: myLatlng,
@@ -73,5 +73,8 @@ function addMarker() {
         google.maps.event.addListener(marker, 'mouseover', function() {
                   infowindow.open(map,marker);
                 });
+    google.maps.event.addListener(marker, 'click', function() {
+        infowindow.open(map,marker);
+    });
 }
 google.maps.event.addDomListener(window, 'load', initialize);
