@@ -76,9 +76,6 @@ function addMarker(JSONObj) {
     infowindow.open(map,marker);
   });
 
-  google.maps.event.addListener(marker, 'click', function() {
-    infowindow.open(map,marker);
-  });
 }
 
 // Passes in lat lng from center of map and returns relevant articles. We then build markers on the map.
