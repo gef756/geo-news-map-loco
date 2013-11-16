@@ -10,12 +10,12 @@ function initialize() {
 		  mapTypeId: google.maps.MapTypeId.ROADMAP
 		};
 
-		var map = new google.maps.Map(document.getElementById("map-canvas"),
+		map = new google.maps.Map(document.getElementById("map-canvas"),
 	    mapOptions);
 
 		hasInit = true;
 	}
-        initMarkers();
+    initMarkers();
 }
 
 function initMarkers() {
@@ -25,6 +25,5 @@ function initMarkers() {
 	  map: map,
 	  title: 'Hello World!'
 	});
-        marker.setMap(map);
 }
 google.maps.event.addDomListener(window, 'load', initialize);
