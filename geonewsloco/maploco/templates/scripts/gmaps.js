@@ -60,11 +60,12 @@ function initialize() {
 	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(articleControlDiv);
 }
 
-function addMarker() {
+// Adds marker to specfic lat lng
+function addMarker(lat, lng) {
     var infowindow = new google.maps.InfoWindow({
         content: "Hello World"
  	});
-	var myLatlng = new google.maps.LatLng(40.714623,-74.006605);
+	var myLatlng = new google.maps.LatLng(lat, lng);
 	var marker = new google.maps.Marker({
 	  position: myLatlng,
 	  map: map,
@@ -77,4 +78,15 @@ function addMarker() {
         infowindow.open(map,marker);
     });
 }
+
+// Passes in lat lng from center of map and returns relevant articles. We then build markers on the map.
+function loadArticles() {
+
+}
+
+// Takes String and converts it to lat lng
+function geoLocate() {
+
+}
+
 google.maps.event.addDomListener(window, 'load', initialize);
