@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+      html { height: 100% }
+      body { height: 100%; margin: 0; padding: 0 }
+      #map-canvas { height: 100% }
+    </style>
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDMFsOL7wP9PA6OnlyFdTGh4w7laSgefY&sensor=false">
+    </script>
+<<<<<<< HEAD
+    <script type="text/javascript" src="maploco/gmaps_test.js"></script>
+=======
+    <script type="text/javascript">
+      function initialize() {
+        var mapOptions = {
+          center: new google.maps.LatLng(40.714623,-74.006605), //default New York City
+          zoom: 12,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById("map-canvas"),
+            mapOptions);
+      }
+      google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+    <!--script type="text/javascript" src="gmaps.js"></script-->
+    <!--script data-main="scripts/gmaps" src="scripts/require.js"></script-->
+>>>>>>> 5df62491798aafb3fdb1e96c7031c69eab2e7dba
+  </head>
+  <body>
+    <div id="map-canvas"/>
+  </body>
+</html>
