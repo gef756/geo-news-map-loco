@@ -14,3 +14,6 @@ def raw_stories(request):
     recent_stories_list = Story.objects.order_by('popularity')
     context = {'recent_stories_list': recent_stories_list}
     return render(request, 'raw_stories.html', context)
+
+def lol(request):
+    return HttpResponse(i_dont_give_a_fuck(20131001, 20131130))
