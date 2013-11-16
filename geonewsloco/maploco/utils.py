@@ -13,7 +13,7 @@ def i_dont_give_a_fuck(start_date, end_date):
 
     from maploco.models import Story
 
-    for page in range(100):
+    for page in range(10):
         query = "http://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=a7da03c9051077bb4e69376735b38f87:4:67487784&sort=newest&begin_date=" + str(start_date) + "&end_date=" + str(end_date) + "&page=" + str(page) + "&hl=true"
 
         result = json.loads(urlopen(query).read())
@@ -21,20 +21,20 @@ def i_dont_give_a_fuck(start_date, end_date):
 
         for doc in docs:
             story = Story()
-        
-            if hasattr(doc, 'headline') and hasattr(doc['headline'], 'main'):
+
+            if 'headline' in doc and 'main' in doc['headline']:
                 story.headline = doc['headline']['main']
 
-            if hasattr(doc, 'web_url'):
+            if 'web_url' in doc:
                 story.url = doc['web_url']
 
-            if hasattr(doc, 'snippet'):
+            if 'snippet' in doc:
                 story.blurb = doc['snippet']
 
-            if hasattr(doc, 'keywords'):
-                for keyword in keywords:
-                    if keyword.name == 'glocations':
-                        story.location_description = keyword.value
+            if 'keywords' in doc:
+                for keyword in doc['keywords']:
+                    if keyword['name'] == 'glocations':
+                        story.location_description = keyword['value']
 
             story.save()
 
