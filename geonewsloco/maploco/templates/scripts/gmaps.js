@@ -33,7 +33,7 @@ function ArticleControl(controlDiv, map) {
   controlUI.appendChild(controlText);
 
   // Setup the click event listeners: simply set the map to Chicago.
-  google.maps.event.addDomListener(controlUI, 'click', addMarker);
+  google.maps.event.addDomListener(controlUI, 'click', loadArticles);
 }
 
 
