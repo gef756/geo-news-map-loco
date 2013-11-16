@@ -61,33 +61,47 @@ function initialize() {
 }
 
 // Adds marker to specfic lat lng
-function addMarker(lat, lng) {
+function addMarker(JSONObj) {
     var infowindow = new google.maps.InfoWindow({
-        content: "Hello World"
+        content: JSONObj.Blurb;
  	});
-	var myLatlng = new google.maps.LatLng(lat, lng);
+	var myLatlng = new google.maps.LatLng(JSONObj.lat, JSONObj.lng);
 	var marker = new google.maps.Marker({
 	  position: myLatlng,
 	  map: map,
-	  title: 'Hello World!'
+	  title: JSONObj.headline
 	});
-        google.maps.event.addListener(marker, 'mouseover', function() {
-                  infowindow.open(map,marker);
-                });
-    google.maps.event.addListener(marker, 'click', function() {
-        infowindow.open(map,marker);
-    });
+
+  google.maps.event.addListener(marker, 'mouseover', function() {
+    infowindow.open(map,marker);
+  });
+
+  google.maps.event.addListener(marker, 'click', function() {
+    infowindow.open(map,marker);
+  });
 }
 
 // Passes in lat lng from center of map and returns relevant articles. We then build markers on the map.
 function loadArticles() {
-  var currentLatLng = getCurrentLatLng();
-  var currentRadius = getCurrentRadius();
+  //Get lat lng for center
+  var currentLatLng = map.getCenter();
+  var lat = currentLatLng.lat;
+  var lng = currentLatLng.lng;
+
+  //Get region radius
+  var bounds = map.getBounds();
+  var swPoint = bounds.getSouthWest();
+  var proximitymeter = google.maps.geometry.spherical.computeDistanceBetween(swPoint, currentLatLng);
+  var proximitymiles = proximitymeter * 0.000621371192;
+
   //call Gabe's interface to get a bunch of articles
 
   //loop through relevant articles and get address
-    //markerLatLng = geoLocate(address);
-    //addmarker(markerLatLng[0], markerLatLng[1]);
+  //var JSONObj = gabeFunction(lat, lng, proximitymiles);
+  for(var i = 0; i < JSONObj.length; i++) {
+    console.log("Plotting headline " + JSONObj[i].headline + "at " + JSONObj[i].lat + " " + JSONObj[i].lng);
+    addMarker(JSONObj[i]);
+  }
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
