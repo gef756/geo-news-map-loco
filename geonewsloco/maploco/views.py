@@ -6,6 +6,11 @@ from maploco.utils import *
 # Create your views here.
 
 def index(request):
+    recent_stories_list = Story.objects.order_by('popularity')
+    context = {'recent_stories_list': recent_stories_list}
+    return render(request, 'gmaps.html', context)
+
+def hello_world(request):
     return HttpResponse("Hello, world. Maploco index! The answer " + 
         "to life, the universe, and everything is: " + 
         str(blah_blah_blah()))

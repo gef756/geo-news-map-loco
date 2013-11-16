@@ -8,6 +8,7 @@ urlpatterns = patterns('',
     # url(r'^$', 'geonewsloco.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
+    url(r'^$', 'maploco.views.index'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^maploco/', include('maploco.urls')),
 )
