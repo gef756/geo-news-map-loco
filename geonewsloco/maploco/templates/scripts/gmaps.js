@@ -62,15 +62,19 @@ function initialize() {
 
 // Adds marker to specfic lat lng
 function addMarker(JSONObj) {
-    var infowindow = new google.maps.InfoWindow({
-        content: JSONObj.Blurb;
- 	});
-	var myLatlng = new google.maps.LatLng(JSONObj.lat, JSONObj.lng);
+	var myLatlng = (JSONObj.lat && JSONObj.lng) ? new google.maps.LatLng(JSONObj.lat, JSONObj.lng) : null;
+  if (myLatLng == null) {
+    console.log("Lat Lng for article was null. No marker made");
+    return;
+  }
 	var marker = new google.maps.Marker({
 	  position: myLatlng,
 	  map: map,
 	  title: JSONObj.headline
 	});
+  var infowindow = new google.maps.InfoWindow({
+      content: JSONObj.Blurb;
+  });
 
   google.maps.event.addListener(marker, 'mouseover', function() {
     infowindow.open(map,marker);
@@ -78,7 +82,7 @@ function addMarker(JSONObj) {
   google.maps.event.addListener(marker, 'mouseout', function() {
     infowindow.close();
   });
-
+  console.log("Plotting headline " + JSONObj.headline + "at " + JSONObj.lat + " " + JSONObj.lng);
 }
 
 // Passes in lat lng from center of map and returns relevant articles. We then build markers on the map.
@@ -99,7 +103,6 @@ function loadArticles() {
   //loop through relevant articles and get address
   //var JSONObj = gabeFunction(lat, lng, proximitymiles);
   for(var i = 0; i < JSONObj.length; i++) {
-    console.log("Plotting headline " + JSONObj[i].headline + "at " + JSONObj[i].lat + " " + JSONObj[i].lng);
     addMarker(JSONObj[i]);
   }
 }
