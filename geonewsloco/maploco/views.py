@@ -19,3 +19,8 @@ def raw_stories(request):
     recent_stories_list = Story.objects.order_by('popularity')
     context = {'recent_stories_list': recent_stories_list}
     return render(request, 'raw_stories.html', context)
+
+def gmaps_test(request):
+    recent_stories_list = Story.objects.order_by('popularity')
+    context = {'recent_stories_list': recent_stories_list}
+    return render(request, 'gmaps_test.js', context)
