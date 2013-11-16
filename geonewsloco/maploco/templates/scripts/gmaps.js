@@ -75,6 +75,9 @@ function addMarker(JSONObj) {
   google.maps.event.addListener(marker, 'mouseover', function() {
     infowindow.open(map,marker);
   });
+  google.maps.event.addListener(marker, 'mouseout', function() {
+    infowindow.close();
+  });
 
 }
 
