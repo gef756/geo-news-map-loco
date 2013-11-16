@@ -81,11 +81,17 @@ function addMarker(lat, lng) {
 
 // Passes in lat lng from center of map and returns relevant articles. We then build markers on the map.
 function loadArticles() {
+  var currentLatLng = getCurrentLatLng();
+  var currentRadius = getCurrentRadius();
+  //call Gabe's interface to get a bunch of articles
 
+  //loop through relevant articles and get address
+    //markerLatLng = geoLocate(address);
+    //addmarker(markerLatLng[0], markerLatLng[1]);
 }
 
 // Takes String and converts it to lat lng
-function geoLocate() {
+function geoLocate(address) {
 
 }
 
