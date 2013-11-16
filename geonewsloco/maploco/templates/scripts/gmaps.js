@@ -70,7 +70,7 @@ function addMarker() {
 	  map: map,
 	  title: 'Hello World!'
 	});
-        google.maps.event.addListener(marker, 'click', function() {
+        google.maps.event.addListener(marker, 'mouseover', function() {
                   infowindow.open(map,marker);
                 });
 }
