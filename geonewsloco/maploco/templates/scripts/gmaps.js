@@ -33,7 +33,7 @@ function ArticleControl(controlDiv, map) {
   controlUI.appendChild(controlText);
 
   // Setup the click event listeners: simply set the map to Chicago.
-  google.maps.event.addDomListener(controlUI, 'click', addMarker);
+  google.maps.event.addDomListener(controlUI, 'click', loadArticles);
 }
 
 
@@ -60,18 +60,51 @@ function initialize() {
 	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(articleControlDiv);
 }
 
-function addMarker() {
-    var infowindow = new google.maps.InfoWindow({
-        content: "Hello World"
- 	});
-	var myLatlng = new google.maps.LatLng(40.714623,-74.006605);
+// Adds marker to specfic lat lng
+function addMarker(JSONObj) {
+	var myLatlng = (JSONObj.lat && JSONObj.lng) ? new google.maps.LatLng(JSONObj.lat, JSONObj.lng) : null;
+  if (myLatLng == null) {
+    console.log("Lat Lng for article was null. No marker made");
+    return;
+  }
 	var marker = new google.maps.Marker({
 	  position: myLatlng,
 	  map: map,
-	  title: 'Hello World!'
+	  title: JSONObj.headline
 	});
-    google.maps.event.addListener(marker, 'click', function() {
-        infowindow.open(map,marker);
-    });
+  var infowindow = new google.maps.InfoWindow({
+      content: JSONObj.Blurb;
+  });
+
+  google.maps.event.addListener(marker, 'mouseover', function() {
+    infowindow.open(map,marker);
+  });
+  google.maps.event.addListener(marker, 'mouseout', function() {
+    infowindow.close();
+  });
+  console.log("Plotting headline " + JSONObj.headline + "at " + JSONObj.lat + " " + JSONObj.lng);
 }
+
+// Passes in lat lng from center of map and returns relevant articles. We then build markers on the map.
+function loadArticles() {
+  //Get lat lng for center
+  var currentLatLng = map.getCenter();
+  var lat = currentLatLng.lat;
+  var lng = currentLatLng.lng;
+
+  //Get region radius
+  var bounds = map.getBounds();
+  var swPoint = bounds.getSouthWest();
+  var proximitymeter = google.maps.geometry.spherical.computeDistanceBetween(swPoint, currentLatLng);
+  var proximitymiles = proximitymeter * 0.000621371192;
+
+  //call Gabe's interface to get a bunch of articles
+
+  //loop through relevant articles and get address
+  //var JSONObj = gabeFunction(lat, lng, proximitymiles);
+  for(var i = 0; i < JSONObj.length; i++) {
+    addMarker(JSONObj[i]);
+  }
+}
+
 google.maps.event.addDomListener(window, 'load', initialize);
