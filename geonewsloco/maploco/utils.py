@@ -13,9 +13,13 @@ from maploco.models import Story
 def blah_blah_blah():
     return 42
 
-def i_dont_give_a_fuck(start_date, end_date):
+def clearmydb():
+    Story.objects.all().delete()
+    return "Done deleting stories."
+
+def i_dont_give_a_fuck(start_date, end_date, num_pages):
     """This function pulls all the fucking stories it can."""
-    for page in range(10):
+    for page in range(num_pages):
         query = "http://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=a7da03c9051077bb4e69376735b38f87:4:67487784&sort=newest&begin_date=" + str(start_date) + "&end_date=" + str(end_date) + "&page=" + str(page) + "&hl=true"
 
         result = json.loads(urlopen(query).read())

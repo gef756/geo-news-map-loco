@@ -20,8 +20,14 @@ def raw_stories(request):
     context = {'recent_stories_list': recent_stories_list}
     return render(request, 'raw_stories.html', context)
 
+def delpop(request):
+    clearmydb()
+    i_dont_give_a_fuck(20131001, 20131130, 15)
+    fill_lat_long_help()
+    return HttpResponse("Done delpopping.")
+
 def lol(request):
-    return HttpResponse(i_dont_give_a_fuck(20131001, 20131130))
+    return HttpResponse(i_dont_give_a_fuck(20131001, 20131130, 15))
 
 def fill_latlongs(request):
     return HttpResponse(fill_lat_long_help())
