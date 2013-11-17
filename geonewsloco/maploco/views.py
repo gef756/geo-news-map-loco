@@ -39,3 +39,11 @@ def gmaps_js(request):
 def story_detail(request, story_id):
     story = get_object_or_404(Story, pk=story_id)
     return render(request, 'story_detail.html', {'story': story})
+
+def stories(request):
+    latmin = float(request.GET.get('lat', '-1')) - float(request.GET.get('yoffset','-1'))
+    latmax = float(request.GET.get('lat', '-1')) + float(request.GET.get('yoffset','-1'))
+    lngmin = float(request.GET.get('long', '-1')) - float(request.GET.get('xoffset','-1'))
+    lngmax = float(request.GET.get('long', '-1')) + float(request.GET.get('xoffset','-1'))
+    
+    return HttpResponse(json_stories(latmin, latmax, lngmin, lngmax))

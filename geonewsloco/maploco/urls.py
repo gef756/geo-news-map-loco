@@ -11,4 +11,5 @@ urlpatterns = patterns('',
     url(r'^gmaps_test.js', views.gmaps_test, name='gmaps_test'),
     url(r'^scripts/gmaps.js', views.gmaps_js, name='gmapsjs'),
     url(r'^story/(?P<story_id>\d+)/$', views.story_detail, name='story_detail'),
+    url(r'^stories/$', views.stories, name='stories'),
 )

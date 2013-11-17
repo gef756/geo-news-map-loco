@@ -6,6 +6,7 @@ from django.utils import simplejson
 import json
 from django.utils.html import escape
 from string import replace
+from django.core import serializers
 
 from maploco.models import Story
 
@@ -54,3 +55,13 @@ def fill_lat_long_help():
         else:
             print("No location found for: " + str(story.location_description))
     return "Done loading lat longs."
+
+def json_stories(latmin, latmax, lngmin, lngmax):
+    all_stories = Story.objects.all().filter(lat__gte=latmin, lat__lte=latmax, 
+               lon__gte=lngmin, lon__lte=lngmax)
+    if len(all_stories) == 0:
+        res = ""
+    else:
+        res = serializers.serialize("json", all_stories)
+    return res
+    
