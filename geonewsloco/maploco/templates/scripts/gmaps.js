@@ -70,7 +70,8 @@ function addMarker(JSONObj) {
 	var marker = new google.maps.Marker({
 	  position: myLatLng,
 	  map: map,
-	  title: JSONObj.fields.headline
+	  title: JSONObj.headline,
+          url: JSONObj.fields.url
 	});
 
   markersArray.push(marker);
@@ -85,7 +86,11 @@ function addMarker(JSONObj) {
   google.maps.event.addListener(marker, 'mouseout', function() {
     infowindow.close();
   });
+  google.maps.event.addListener(marker, 'click', function() {
+    window.location.href = this.url;
+  });
   console.log("Plotting headline " + JSONObj.fields.headline + "at " + JSONObj.fields.lat + " " + JSONObj.fields.lon);
+  console.log("Plotting headline " + JSONObj.headline + "at " + JSONObj.lat + " " + JSONObj.lng);
 }
 
 // Passes in lat lng from center of map and returns relevant articles. We then build markers on the map.
