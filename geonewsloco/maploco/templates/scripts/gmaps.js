@@ -62,21 +62,21 @@ function initialize() {
 
 // Adds marker to specfic lat lng
 function addMarker(JSONObj) {
-	var myLatlng = (JSONObj.lat && JSONObj.lng) ? new google.maps.LatLng(JSONObj.lat, JSONObj.lng) : null;
+	var myLatLng = (JSONObj.fields.lat && JSONObj.fields.lon) ? new google.maps.LatLng(JSONObj.fields.lat, JSONObj.fields.lon) : null;
   if (myLatLng == null) {
     console.log("Lat Lng for article was null. No marker made");
     return;
   }
 	var marker = new google.maps.Marker({
-	  position: myLatlng,
+	  position: myLatLng,
 	  map: map,
-	  title: JSONObj.headline
+	  title: JSONObj.fields.headline
 	});
 
   markersArray.push(marker);
 
   var infowindow = new google.maps.InfoWindow({
-      content: JSONObj.Blurb;
+      content: JSONObj.fields.blurb
   });
 
   google.maps.event.addListener(marker, 'mouseover', function() {
@@ -85,7 +85,7 @@ function addMarker(JSONObj) {
   google.maps.event.addListener(marker, 'mouseout', function() {
     infowindow.close();
   });
-  console.log("Plotting headline " + JSONObj.headline + "at " + JSONObj.lat + " " + JSONObj.lng);
+  console.log("Plotting headline " + JSONObj.fields.headline + "at " + JSONObj.fields.lat + " " + JSONObj.fields.lon);
 }
 
 // Passes in lat lng from center of map and returns relevant articles. We then build markers on the map.
@@ -105,12 +105,13 @@ function loadArticles() {
   var yOffset = Math.abs(swPoint.lat() - lat);
 
   //call Gabe's interface to get a bunch of articles
-  var JSONArr[] = getFromServer(lat, lng, xOffset, yOffset);
+  var JSONArr = getFromServer(lat, lng, xOffset, yOffset);
+  var JSONArrObj = JSON.parse(JSONArr);
 
   //loop through relevant articles and get address
   //var JSONObj = gabeFunction(lat, lng, proximitymiles);
-  for(var i = 0; i < JSONArr.length; i++) {
-    addMarker(JSONArr[i]);
+  for(var i = 0; i < JSONArrObj.length; i++) {
+    addMarker(JSONArrObj[i]);
   }
 }
 
@@ -124,7 +125,7 @@ function getFromServer(lat, lng, xOffset, yOffset) {
     var xmlHttp = null;
     xmlHttp = new XMLHttpRequest();
     console.log("getting from " + "/maploco/stories?lat=" + lat + "&long=" + lng + "&xoffset=" + xOffset + "&yoffset=" + yOffset);
-    xmlHttp.open( "GET", "/maploco/stories?lat=" + lat + "&long=" + lng + "&xoffset=" + xOffset + "&yoffset=" + yOffset, true);
+    xmlHttp.open( "GET", "/maploco/stories?lat=" + lat + "&long=" + lng + "&xoffset=" + xOffset + "&yoffset=" + yOffset, false);
     xmlHttp.send();
     return xmlHttp.responseText;
 }
