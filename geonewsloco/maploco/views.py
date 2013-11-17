@@ -20,9 +20,9 @@ def raw_stories(request):
     context = {'recent_stories_list': recent_stories_list}
     return render(request, 'raw_stories.html', context)
 
-def delpop(request):
+def delpop(request, num_pages=15):
     clearmydb()
-    i_dont_give_a_fuck(20131001, 20131130, 15)
+    i_dont_give_a_fuck(20131001, 20131130, int(num_pages))
     fill_lat_long_help()
     return HttpResponse("Done delpopping.")
 
