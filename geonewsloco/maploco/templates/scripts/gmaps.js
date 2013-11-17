@@ -95,21 +95,22 @@ function loadArticles() {
 
   //Get lat lng for center
   var currentLatLng = map.getCenter();
-  var lat = currentLatLng.lat;
-  var lng = currentLatLng.lng;
+  var lat = currentLatLng.lat();
+  var lng = currentLatLng.lng();
 
   //Get region radius
   var bounds = map.getBounds();
   var swPoint = bounds.getSouthWest();
-  var proximitymeter = google.maps.geometry.spherical.computeDistanceBetween(swPoint, currentLatLng);
-  var proximitymiles = proximitymeter * 0.000621371192;
+  var xOffset = Math.abs(swPoint.lng() - lng);
+  var yOffset = Math.abs(swPoint.lat() - lat);
 
   //call Gabe's interface to get a bunch of articles
+  var JSONArr[] = getFromServer(lat, lng, xOffset, yOffset);
 
   //loop through relevant articles and get address
   //var JSONObj = gabeFunction(lat, lng, proximitymiles);
-  for(var i = 0; i < JSONObj.length; i++) {
-    addMarker(JSONObj[i]);
+  for(var i = 0; i < JSONArr.length; i++) {
+    addMarker(JSONArr[i]);
   }
 }
 
@@ -117,6 +118,14 @@ function clearMarkers() {
   for (var i = 0; i < markersArray.length; i++) {
     markersArray[i].setMap(null);
   }
+}
+
+function getFromServer(lat, lng, xOffset, yOffset) {
+    var xmlHttp = null;
+    xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", "/maploco/stories?lat=" + lat + "&long=" + lng + "&xoffset=" + xOffset + "&yoffset=" + yOffset, true);
+    xmlHttp.send();
+    return xmlHttp.responseText;
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
