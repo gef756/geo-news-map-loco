@@ -48,7 +48,7 @@ def i_dont_give_a_fuck(start_date, end_date, num_pages):
 
 def fill_lat_long_help():
     for story in Story.objects.all().exclude(location_description__isnull=True):
-        query = "http://maps.googleapis.com/maps/api/geocode/json?address=" +       escape(replace(replace(replace(story.location_description, ')', ''), '(', ''),' ','+')) + "&sensor=false" 
+        query = "http://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=" +       escape(replace(replace(replace(story.location_description, ')', ''), '(', ''),' ','+')) 
         print(query)
         result = json.loads(urlopen(query).read())
         # print(result['results'][0]['geometry'])
