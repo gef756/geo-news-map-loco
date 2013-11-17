@@ -23,6 +23,9 @@ def raw_stories(request):
 def lol(request):
     return HttpResponse(i_dont_give_a_fuck(20131001, 20131130))
 
+def fill_latlongs(request):
+    return HttpResponse(fill_lat_long_help())
+
 def gmaps_test(request):
     recent_stories_list = Story.objects.order_by('popularity')
     context = {'recent_stories_list': recent_stories_list}
