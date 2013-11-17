@@ -123,6 +123,7 @@ function clearMarkers() {
 function getFromServer(lat, lng, xOffset, yOffset) {
     var xmlHttp = null;
     xmlHttp = new XMLHttpRequest();
+    console.log("getting from " + "/maploco/stories?lat=" + lat + "&long=" + lng + "&xoffset=" + xOffset + "&yoffset=" + yOffset);
     xmlHttp.open( "GET", "/maploco/stories?lat=" + lat + "&long=" + lng + "&xoffset=" + xOffset + "&yoffset=" + yOffset, true);
     xmlHttp.send();
     return xmlHttp.responseText;
