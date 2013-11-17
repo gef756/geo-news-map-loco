@@ -87,7 +87,7 @@ function addMarker(JSONObj) {
     infowindow.close();
   });
   google.maps.event.addListener(marker, 'click', function() {
-    window.location.href = this.url;
+    window.open(this.url);
   });
   console.log("Plotting headline " + JSONObj.fields.headline + "at " + JSONObj.fields.lat + " " + JSONObj.fields.lon);
   console.log("Plotting headline " + JSONObj.headline + "at " + JSONObj.lat + " " + JSONObj.lng);
