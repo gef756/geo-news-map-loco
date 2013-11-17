@@ -1,6 +1,6 @@
 var map;
 var hasInit = false;
-var markers;
+var markersArray = [];
 
 /**
  * The load article control will load article markers onto the map
@@ -72,6 +72,9 @@ function addMarker(JSONObj) {
 	  map: map,
 	  title: JSONObj.headline
 	});
+
+  markersArray.push(marker);
+
   var infowindow = new google.maps.InfoWindow({
       content: JSONObj.Blurb;
   });
@@ -87,6 +90,9 @@ function addMarker(JSONObj) {
 
 // Passes in lat lng from center of map and returns relevant articles. We then build markers on the map.
 function loadArticles() {
+  //clear map markers
+  clearMarkers();
+
   //Get lat lng for center
   var currentLatLng = map.getCenter();
   var lat = currentLatLng.lat;
@@ -104,6 +110,12 @@ function loadArticles() {
   //var JSONObj = gabeFunction(lat, lng, proximitymiles);
   for(var i = 0; i < JSONObj.length; i++) {
     addMarker(JSONObj[i]);
+  }
+}
+
+function clearMarkers() {
+  for (var i = 0; i < markersArray.length; i++) {
+    markersArray[i].setMap(null);
   }
 }
 
