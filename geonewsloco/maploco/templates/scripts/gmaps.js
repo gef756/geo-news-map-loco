@@ -1,6 +1,6 @@
 var map;
 var hasInit = false;
-var markers;
+var markersArray = [];
 
 /**
  * The load article control will load article markers onto the map
@@ -72,6 +72,9 @@ function addMarker(JSONObj) {
 	  map: map,
 	  title: JSONObj.headline
 	});
+
+  markersArray.push(marker);
+
   var infowindow = new google.maps.InfoWindow({
       content: JSONObj.Blurb;
   });
@@ -87,24 +90,43 @@ function addMarker(JSONObj) {
 
 // Passes in lat lng from center of map and returns relevant articles. We then build markers on the map.
 function loadArticles() {
+  //clear map markers
+  clearMarkers();
+
   //Get lat lng for center
   var currentLatLng = map.getCenter();
-  var lat = currentLatLng.lat;
-  var lng = currentLatLng.lng;
+  var lat = currentLatLng.lat();
+  var lng = currentLatLng.lng();
 
   //Get region radius
   var bounds = map.getBounds();
   var swPoint = bounds.getSouthWest();
-  var proximitymeter = google.maps.geometry.spherical.computeDistanceBetween(swPoint, currentLatLng);
-  var proximitymiles = proximitymeter * 0.000621371192;
+  var xOffset = Math.abs(swPoint.lng() - lng);
+  var yOffset = Math.abs(swPoint.lat() - lat);
 
   //call Gabe's interface to get a bunch of articles
+  var JSONArr[] = getFromServer(lat, lng, xOffset, yOffset);
 
   //loop through relevant articles and get address
   //var JSONObj = gabeFunction(lat, lng, proximitymiles);
-  for(var i = 0; i < JSONObj.length; i++) {
-    addMarker(JSONObj[i]);
+  for(var i = 0; i < JSONArr.length; i++) {
+    addMarker(JSONArr[i]);
   }
+}
+
+function clearMarkers() {
+  for (var i = 0; i < markersArray.length; i++) {
+    markersArray[i].setMap(null);
+  }
+}
+
+function getFromServer(lat, lng, xOffset, yOffset) {
+    var xmlHttp = null;
+    xmlHttp = new XMLHttpRequest();
+    console.log("getting from " + "/maploco/stories?lat=" + lat + "&long=" + lng + "&xoffset=" + xOffset + "&yoffset=" + yOffset);
+    xmlHttp.open( "GET", "/maploco/stories?lat=" + lat + "&long=" + lng + "&xoffset=" + xOffset + "&yoffset=" + yOffset, true);
+    xmlHttp.send();
+    return xmlHttp.responseText;
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
