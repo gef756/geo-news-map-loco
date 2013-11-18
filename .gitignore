@@ -37,5 +37,8 @@ nosetests.xml
 # Databases
 *.sqlite3
 
-#Vim Swap Files
+# Vim Swap Files
 *.swp
+
+# VirtualEnv
+venv
