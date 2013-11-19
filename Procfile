@@ -1,1 +1,1 @@
-web: gunicorn geonewsloco/geonewsloco/wsgi.py
+web: gunicorn geonewsloco/geonewsloco/wsgi.py:application
