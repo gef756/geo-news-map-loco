@@ -1,1 +1,1 @@
-web: gunicorn settings:application
+web: gunicorn geonewsloco:application
