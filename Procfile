@@ -1,1 +1,1 @@
-web: gunicorn geonewsloco/geonewsloco/wsgi:application
+web: gunicorn geonewsloco/geonewsloco/settings:application
