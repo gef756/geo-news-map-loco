@@ -1,0 +1,8 @@
+How to run app locally:
+
+1. cd geonewsloco
+2. ./manage.py syncdb
+3. ./manage.py migrate
+4. ./manage.py runserver
+5. The port number will then appear
+6. http://127.0.0.1:8000 is the default

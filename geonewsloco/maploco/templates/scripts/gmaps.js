@@ -2,12 +2,34 @@ var map;
 var hasInit = false;
 var markersArray = [];
 
-/**
- * The load article control will load article markers onto the map
- */
+google.maps.event.addDomListener(window, 'load', initialize);
 
+//Generate map during initial map load
+function initialize() {
+  if (!hasInit) {
+    var mapOptions = {
+      center: new google.maps.LatLng(40.714623,-74.006605 ),
+      zoom: 12,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+
+    map = new google.maps.Map(document.getElementById("map-canvas"),
+      mapOptions);
+
+    hasInit = true;
+  }
+  
+  // Create the DIV to hold the control and call the ArticleControl() constructor
+  // passing in this DIV.
+  var articleControlDiv = document.createElement('div');
+  var articleControl = new ArticleControl(articleControlDiv, map);
+
+  articleControlDiv.index = 1;
+  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(articleControlDiv);
+}
+
+//The load article control will load article markers onto the map
 function ArticleControl(controlDiv, map) {
-
   // Set CSS styles for the DIV containing the control
   // Setting padding to 5 px will offset the control
   // from the edge of the map.
@@ -34,30 +56,6 @@ function ArticleControl(controlDiv, map) {
 
   // Setup the click event listeners: simply set the map to Chicago.
   google.maps.event.addDomListener(controlUI, 'click', loadArticles);
-}
-
-
-function initialize() {
-	if (!hasInit) {
-		var mapOptions = {
-		  center: new google.maps.LatLng(40.714623,-74.006605 ),
-		  zoom: 12,
-		  mapTypeId: google.maps.MapTypeId.ROADMAP
-		};
-
-		map = new google.maps.Map(document.getElementById("map-canvas"),
-	    mapOptions);
-
-		hasInit = true;
-	}
-    //addMarker();
-    // Create the DIV to hold the control and call the ArticleControl() constructor
-	// passing in this DIV.
-	var articleControlDiv = document.createElement('div');
-	var articleControl = new ArticleControl(articleControlDiv, map);
-
-	articleControlDiv.index = 1;
-	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(articleControlDiv);
 }
 
 // Adds marker to specfic lat lng
@@ -109,12 +107,11 @@ function loadArticles() {
   var xOffset = Math.abs(swPoint.lng() - lng);
   var yOffset = Math.abs(swPoint.lat() - lat);
 
-  //call Gabe's interface to get a bunch of articles
+  //Retreive list of locations and stories from server
   var JSONArr = getFromServer(lat, lng, xOffset, yOffset);
   var JSONArrObj = JSON.parse(JSONArr);
 
   //loop through relevant articles and get address
-  //var JSONObj = gabeFunction(lat, lng, proximitymiles);
   for(var i = 0; i < JSONArrObj.length; i++) {
     addMarker(JSONArrObj[i]);
   }
@@ -134,5 +131,3 @@ function getFromServer(lat, lng, xOffset, yOffset) {
     xmlHttp.send();
     return xmlHttp.responseText;
 }
-
-google.maps.event.addDomListener(window, 'load', initialize);
