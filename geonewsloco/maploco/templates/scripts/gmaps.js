@@ -1,4 +1,5 @@
 var map;
+var request;
 var hasInit = false;
 var markersArray = [];
 
@@ -124,10 +125,31 @@ function clearMarkers() {
 }
 
 function getFromServer(lat, lng, xOffset, yOffset) {
-    var xmlHttp = null;
-    xmlHttp = new XMLHttpRequest();
-    console.log("getting from " + "/maploco/stories?lat=" + lat + "&long=" + lng + "&xoffset=" + xOffset + "&yoffset=" + yOffset);
-    xmlHttp.open( "GET", "/maploco/stories?lat=" + lat + "&long=" + lng + "&xoffset=" + xOffset + "&yoffset=" + yOffset, false);
-    xmlHttp.send();
-    return xmlHttp.responseText;
+    var url = "/maploco/stories?lat=" + lat + "&long=" + lng + "&xoffset=" + xOffset + "&yoffset=" + yOffset;
+    console.log("getting from " + url);
+    createRequest();
+    request.open("GET", url, false);
+    request.send(null);
+    return request.responseText; // Will update this to be asynchronous
+}
+
+
+// Creates request based on browser used by user
+function createRequest() {
+  try {
+    request = new XMLHttpRequest();
+  } catch (trymicrosoft) {
+    try {
+      request = new ActiveXObject("Msxml2.XMLHTTP");
+    } catch (othermicrosoft) {
+      try {
+        request = new ActiveXObject("Microsoft.XMLHTTP");
+      } catch (failed) {
+        request = null;
+      }
+    }
+  }
+  if (request == null) {
+    alert("Error creating XMLHttpRequest. Try switching browsers");
+  }
 }
