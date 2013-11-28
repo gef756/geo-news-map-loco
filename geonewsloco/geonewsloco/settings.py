@@ -55,6 +55,10 @@ ROOT_URLCONF = 'geonewsloco.urls'
 WSGI_APPLICATION = 'geonewsloco.wsgi.application'
 
 
+
+
+# Database settings are managed in local_settings.py
+
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
@@ -90,6 +94,14 @@ STATICFILES_DIRS = (
 )
 
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
+
+try:
+    from local_settings import *
+except ImportError, e:
+    DATABASE_INFO = 'sqlite://:memory:'
+    print("WARNING: No local_settings.py file, using in-memory database.")
+
+os.environ.setdefault('DATABASE_URL', DATABASE_INFO)
 
 ## Heroku Requirements
 

@@ -1,0 +1,8 @@
+# Enter Database Configuration here
+# Copy this file to local_settings.py
+# Update Database info as necessary
+# protocol://username:password@host:port/db
+
+# easiest is to use: sqlite:///path/to/database/file.sqlite3
+
+DATABASE_INFO = 'postgres://djangouser:djangopass@127.0.0.1:5432/djangodb'
