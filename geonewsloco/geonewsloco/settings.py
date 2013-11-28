@@ -98,8 +98,8 @@ TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 try:
     from local_settings import *
 except ImportError, e:
+    print("WARNING: No local_settings.py file.")
     DATABASE_INFO = 'sqlite://:memory:'
-    print("WARNING: No local_settings.py file, using in-memory database.")
 
 os.environ.setdefault('DATABASE_URL', DATABASE_INFO)
 
