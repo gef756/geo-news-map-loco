@@ -29,6 +29,59 @@ function initialize() {
   map.controls[google.maps.ControlPosition.TOP_RIGHT].push(articleControlDiv);
 }
 
+// Creates request based on browser used by user
+function createRequest() {
+  try {
+    request = new XMLHttpRequest();
+  } catch (trymicrosoft) {
+    try {
+      request = new ActiveXObject("Msxml2.XMLHTTP");
+    } catch (othermicrosoft) {
+      try {
+        request = new ActiveXObject("Microsoft.XMLHTTP");
+      } catch (failed) {
+        request = null;
+      }
+    }
+  }
+  if (request == null) {
+    alert("Error creating XMLHttpRequest. Try switching browsers");
+  }
+}
+
+/* Called when user clicks on the "Load Articles" button on the map*/
+function getFromServer() {
+    //Get lat lng for center
+    var currentLatLng = map.getCenter();
+    var lat = currentLatLng.lat();
+    var lng = currentLatLng.lng();
+
+    //Get region radius
+    var bounds = map.getBounds();
+    var swPoint = bounds.getSouthWest();
+    var xOffset = Math.abs(swPoint.lng() - lng);
+    var yOffset = Math.abs(swPoint.lat() - lat);
+
+    createRequest();
+    var url = "/maploco/stories?lat=" + lat + "&long=" + lng + "&xoffset=" + xOffset + "&yoffset=" + yOffset;
+    console.log("getting from " + url);
+    request.open("GET", url, true);
+    request.onreadystatechange = loadArticles;
+    request.send(null);
+}
+
+/* Loads articles when server request is ready */
+function loadArticles() {
+    if (request.readyState == 4) {
+      clearMarkers();
+      var JSONArr = JSON.parse(request.responseText);
+      //loop through relevant articles and get address
+      for(var i = 0; i < JSONArr.length; i++) {
+        addMarker(JSONArr[i]);
+    }
+  }
+}
+
 //The load article control will load article markers onto the map
 function ArticleControl(controlDiv, map) {
   // Set CSS styles for the DIV containing the control
@@ -56,7 +109,7 @@ function ArticleControl(controlDiv, map) {
   controlUI.appendChild(controlText);
 
   // Setup the click event listeners: simply set the map to Chicago.
-  google.maps.event.addDomListener(controlUI, 'click', loadArticles);
+  google.maps.event.addDomListener(controlUI, 'click', getFromServer);
 }
 
 // Adds marker to specfic lat lng
@@ -92,64 +145,9 @@ function addMarker(JSONObj) {
   console.log("Plotting headline " + JSONObj.headline + "at " + JSONObj.lat + " " + JSONObj.lng);
 }
 
-// Passes in lat lng from center of map and returns relevant articles. We then build markers on the map.
-function loadArticles() {
-  //clear map markers
-  clearMarkers();
-
-  //Get lat lng for center
-  var currentLatLng = map.getCenter();
-  var lat = currentLatLng.lat();
-  var lng = currentLatLng.lng();
-
-  //Get region radius
-  var bounds = map.getBounds();
-  var swPoint = bounds.getSouthWest();
-  var xOffset = Math.abs(swPoint.lng() - lng);
-  var yOffset = Math.abs(swPoint.lat() - lat);
-
-  //Retreive list of locations and stories from server
-  var JSONArr = getFromServer(lat, lng, xOffset, yOffset);
-  var JSONArrObj = JSON.parse(JSONArr);
-
-  //loop through relevant articles and get address
-  for(var i = 0; i < JSONArrObj.length; i++) {
-    addMarker(JSONArrObj[i]);
-  }
-}
 
 function clearMarkers() {
   for (var i = 0; i < markersArray.length; i++) {
     markersArray[i].setMap(null);
-  }
-}
-
-function getFromServer(lat, lng, xOffset, yOffset) {
-    var url = "/maploco/stories?lat=" + lat + "&long=" + lng + "&xoffset=" + xOffset + "&yoffset=" + yOffset;
-    console.log("getting from " + url);
-    createRequest();
-    request.open("GET", url, false);
-    request.send(null);
-    return request.responseText; // Will update this to be asynchronous
-}
-
-
-// Creates request based on browser used by user
-function createRequest() {
-  try {
-    request = new XMLHttpRequest();
-  } catch (trymicrosoft) {
-    try {
-      request = new ActiveXObject("Msxml2.XMLHTTP");
-    } catch (othermicrosoft) {
-      try {
-        request = new ActiveXObject("Microsoft.XMLHTTP");
-      } catch (failed) {
-        request = null;
-      }
-    }
-  }
-  if (request == null) {
-    alert("Error creating XMLHttpRequest. Try switching browsers");
   }
 }
