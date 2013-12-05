@@ -63,7 +63,7 @@ function getFromServer() {
     var yOffset = Math.abs(swPoint.lat() - lat);
 
     createRequest();
-    var url = "/maploco/stories?lat=" + lat + "&long=" + lng + "&xoffset=" + xOffset + "&yoffset=" + yOffset;
+    var url = "/maploco/stories?lat=" + escape(lat) + "&long=" + escape(lng) + "&xoffset=" + escape(xOffset) + "&yoffset=" + escape(yOffset);
     console.log("getting from " + url);
     request.open("GET", url, true);
     request.onreadystatechange = loadArticles;
