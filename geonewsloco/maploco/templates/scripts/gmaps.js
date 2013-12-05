@@ -73,13 +73,17 @@ function getFromServer() {
 /* Loads articles when server request is ready */
 function loadArticles() {
     if (request.readyState == 4) {
-      clearMarkers();
-      var JSONArr = JSON.parse(request.responseText);
-      //loop through relevant articles and get address
-      for(var i = 0; i < JSONArr.length; i++) {
-        addMarker(JSONArr[i]);
+      if (request.status == 200) {
+        clearMarkers();
+        var JSONArr = JSON.parse(request.responseText);
+        //loop through relevant articles and get address
+        for(var i = 0; i < JSONArr.length; i++) {
+          addMarker(JSONArr[i]);
+        }
+      } else {
+        alert("Error! Request status is " + request.status);
+      }
     }
-  }
 }
 
 //The load article control will load article markers onto the map
